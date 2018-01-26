@@ -82,7 +82,15 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="color.h" />
+    <ClInclude Include="joystick.h" />
+    <ClInclude Include="rgbled.h" />
     <ClInclude Include="__vm\.arduino_rgbled.vsarduino.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="color.cpp" />
+    <ClCompile Include="joystick.cpp" />
+    <ClCompile Include="rgbled.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
