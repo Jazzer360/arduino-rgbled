@@ -9,9 +9,17 @@ const double deadzone{ 0.05 };
 
 Joystick joystick{ pinX, pinY, pinJoybtn, deadzone };
 
+volatile bool paused{ false };
+long lastClick{};
+
 void onClick()
 {
-    Serial.println("CLICKED");
+    if (millis() - lastClick > 10)
+    {
+        Serial.println("CLICKED");
+        paused = !paused;
+        lastClick = millis();
+    }
 }
 
 void setup()
@@ -22,5 +30,12 @@ void setup()
 
 void loop()
 {
-
+    Joystick::State joy = joystick.getState();
+    Serial.print("Angle: ");
+    Serial.println(joy.angle);
+    Serial.print("Mag: ");
+    Serial.println(joy.magnitude);
+    Serial.print("Clicked: ");
+    Serial.println(joy.pressed);
+    delay(1000);
 }

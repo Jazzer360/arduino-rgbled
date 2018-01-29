@@ -1,19 +1,19 @@
 #include "joystick.h"
 
-const Joystick::State Joystick::getState()
+Joystick::State Joystick::getState() const
 {
     int x = analogRead(mXPin) - 511;
     int y = analogRead(mYPin) - 511;
     double angle = atan2(y, x) + PI;
-    double mag = sqrt(static_cast<long>(x) * x + static_cast<long>(y) * y);
-    mag = min(mag, 512.0) / 512.0;
-    bool clicked = digitalRead(mButtonPin) == HIGH;
-    if (mag < mDeadzone)
+    double magnitude = sqrt(static_cast<long>(x) * x + static_cast<long>(y) * y);
+    magnitude = min(magnitude, 512.0) / 512.0;
+    bool pressed = digitalRead(mButtonPin) == HIGH;
+    if (magnitude < mDeadzone)
     {
-        mag = 0.0;
+        magnitude = 0.0;
         angle = 0.0;
     }
-    return Joystick::State{ angle, mag, clicked };
+    return Joystick::State{ angle, magnitude, pressed };
 }
 
 void Joystick::setOnClick(void(*function)())
@@ -28,8 +28,8 @@ void Joystick::removeOnClick()
     mOnClick = nullptr;
 }
 
-const void Joystick::init()
-{
+void Joystick::init() const
+{   
     pinMode(mXPin, INPUT_PULLUP);
     pinMode(mYPin, INPUT_PULLUP);
     pinMode(mButtonPin, INPUT_PULLUP);
