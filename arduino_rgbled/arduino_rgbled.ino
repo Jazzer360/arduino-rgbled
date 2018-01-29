@@ -30,7 +30,7 @@ void setup()
 
 void loop()
 {
-    Joystick::State joy = joystick.getState();
+    const Joystick::State &joy = joystick.getState();
     Serial.print("Angle: ");
     Serial.println(joy.angle);
     Serial.print("Mag: ");

@@ -1,19 +1,19 @@
 #include "joystick.h"
 
-Joystick::State Joystick::getState() const
+const Joystick::State& Joystick::getState()
 {
     int x = analogRead(mXPin) - 511;
     int y = analogRead(mYPin) - 511;
-    double angle = atan2(y, x) + PI;
-    double magnitude = sqrt(static_cast<long>(x) * x + static_cast<long>(y) * y);
-    magnitude = min(magnitude, 512.0) / 512.0;
-    bool pressed = digitalRead(mButtonPin) == HIGH;
-    if (magnitude < mDeadzone)
+    mState.angle = atan2(y, x) + PI;
+    mState.magnitude = sqrt(static_cast<long>(x) * x + static_cast<long>(y) * y);
+    mState.magnitude = min(mState.magnitude, 512.0) / 512.0;
+    mState.pressed = digitalRead(mButtonPin) == HIGH;
+    if (mState.magnitude < mDeadzone)
     {
-        magnitude = 0.0;
-        angle = 0.0;
+        mState.magnitude = 0.0;
+        mState.angle = 0.0;
     }
-    return Joystick::State{ angle, magnitude, pressed };
+    return mState;
 }
 
 void Joystick::setOnClick(void(*function)())

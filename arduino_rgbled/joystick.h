@@ -7,18 +7,18 @@ class Joystick
 {
 public:
     struct State {
-        const double angle;
-        const double magnitude;
-        const bool pressed;
+        double angle;
+        double magnitude;
+        bool pressed;
     };
     Joystick(byte xPin, byte yPin, byte buttonPin)
         : Joystick(xPin, yPin, buttonPin, 0)
     { init(); }
     Joystick(byte xPin, byte yPin, byte buttonPin, double deadzone)
         : mXPin{ xPin }, mYPin{ yPin }, mButtonPin{ buttonPin },
-        mDeadzone{ deadzone }, mOnClick{ nullptr }
+        mDeadzone{ deadzone }, mOnClick{ nullptr }, mState{ 0.0, 0.0, false }
     { init(); }
-    State getState() const;
+    const State& getState();
     void setOnClick(void(*)());
     void removeOnClick();
 private:
@@ -26,6 +26,7 @@ private:
     const byte mYPin;
     const byte mButtonPin;
     const double mDeadzone;
+    State mState;
     void (*mOnClick)();
     void init() const;
 };
