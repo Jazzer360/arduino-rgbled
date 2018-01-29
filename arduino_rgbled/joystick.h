@@ -1,21 +1,33 @@
 #ifndef _JOYSTICK_h
 #define _JOYSTICK_h
 
-#if defined(ARDUINO) && ARDUINO >= 100
-	#include "Arduino.h"
-#else
-	#include "WProgram.h"
-#endif
+#include "Arduino.h"
 
-class Joystick {
+class Joystick
+{
 public:
-    Joystick(byte xPin, byte yPin, byte buttonPin) :
-        mXPin{ xPin }, mYPin{ yPin }, mButtonPin{ buttonPin } {}
+    struct State {
+        const double angle;
+        const double magnitude;
+        const bool pressed;
+    };
+    Joystick(byte xPin, byte yPin, byte buttonPin)
+        : Joystick(xPin, yPin, buttonPin, 0)
+    { init(); }
+    Joystick(byte xPin, byte yPin, byte buttonPin, double deadzone)
+        : mXPin{ xPin }, mYPin{ yPin }, mButtonPin{ buttonPin },
+          mDeadzone{ deadzone }, mOnClick{ nullptr }
+    { init(); }
+    const State getState();
+    void setOnClick(void(*)());
+    void removeOnClick();
 private:
-    byte mXPin;
-    byte mYPin;
-    byte mButtonPin;
-    int deadzone;
+    const byte mXPin;
+    const byte mYPin;
+    const byte mButtonPin;
+    const double mDeadzone;
+    void (*mOnClick)();
+    const void init();
 };
 
 #endif

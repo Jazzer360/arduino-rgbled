@@ -1,19 +1,26 @@
-/*
- Name:		arduino_rgbled.ino
- Created:	1/26/2018 12:42:44 PM
- Author:	Derek
-*/
-
 #include "rgbled.h"
 #include "color.h"
 #include "joystick.h"
 
-// the setup function runs once when you press reset or power the board
-void setup() {
+const byte pinX{ PIN_A0 };
+const byte pinY{ PIN_A1 };
+const byte pinJoybtn{ 3 };
+const double deadzone{ 0.05 };
 
+Joystick joystick{ pinX, pinY, pinJoybtn, deadzone };
+
+void onClick()
+{
+    Serial.println("CLICKED");
 }
 
-// the loop function runs over and over again until power down or reset
-void loop() {
+void setup()
+{
+    Serial.begin(9600);
+    joystick.setOnClick(onClick);
+}
+
+void loop()
+{
 
 }
