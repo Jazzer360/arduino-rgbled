@@ -16,15 +16,10 @@ const byte pinB{ 11 };
 RGBLED led{ pinR, pinG, pinB };
 
 volatile bool paused{ false };
-long lastClick{};
 
-void onClick()
+void onClick(const Joystick::State &state)
 {
-    if (millis() - lastClick > 10)
-    {
-        paused = !paused;
-        lastClick = millis();
-    }
+    paused = !paused;
 }
 
 Color angleToColor(double angle) {
@@ -56,6 +51,7 @@ void setup()
 
 void loop()
 {
+    joystick.update();
     if (!paused)
     {
         const Joystick::State &joy = joystick.getState();

@@ -15,11 +15,11 @@ public:
         : Joystick(xPin, yPin, buttonPin, 0)
     { init(); }
     Joystick(byte xPin, byte yPin, byte buttonPin, double deadzone)
-        : mXPin{ xPin }, mYPin{ yPin }, mButtonPin{ buttonPin },
-        mDeadzone{ deadzone }
+        : mXPin{ xPin }, mYPin{ yPin }, mButtonPin{ buttonPin }, mDeadzone{ deadzone }
     { init(); }
+    void update();
     const State& getState();
-    void setOnClick(void(*)());
+    void setOnClick(void(*function)(const State &));
     void removeOnClick();
 private:
     const byte mXPin;
@@ -27,7 +27,7 @@ private:
     const byte mButtonPin;
     const double mDeadzone;
 	State mState{ 0.0, 0.0, false };
-	void (*mOnClick)() { nullptr };
+	void (*mOnClick)(const State &) { nullptr };
     void init() const;
 };
 

@@ -1,30 +1,37 @@
 #include "joystick.h"
 
-const Joystick::State& Joystick::getState()
+void Joystick::update()
 {
     int x = analogRead(mXPin) - 511;
     int y = analogRead(mYPin) - 511;
     mState.angle = atan2(y, x) + PI;
     mState.magnitude = sqrt(static_cast<long>(x) * x + static_cast<long>(y) * y);
     mState.magnitude = min(mState.magnitude, 512.0) / 512.0;
-    mState.pressed = digitalRead(mButtonPin) == LOW;
     if (mState.magnitude < mDeadzone)
     {
         mState.magnitude = 0.0;
         mState.angle = 0.0;
     }
+    int buttonState = digitalRead(mButtonPin);
+    if (buttonState != (mState.pressed ? LOW : HIGH))
+    {
+        mState.pressed = (buttonState == LOW);
+        if (mOnClick && mState.pressed) mOnClick(mState);
+    }
+}
+
+const Joystick::State& Joystick::getState()
+{
     return mState;
 }
 
-void Joystick::setOnClick(void(*function)())
+void Joystick::setOnClick(void(*function)(const State &))
 {
     mOnClick = function;
-    attachInterrupt(digitalPinToInterrupt(mButtonPin), mOnClick, LOW);
 }
 
 void Joystick::removeOnClick()
 {
-    detachInterrupt(digitalPinToInterrupt(mButtonPin));
     mOnClick = nullptr;
 }
 
