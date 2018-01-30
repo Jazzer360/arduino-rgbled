@@ -15,6 +15,7 @@ Color Color::fromAngle(double angle)
     switch (segment)
     {
     case 0:
+	case 6:
         return Color::blend(Color(RED), Color(ORANGE), ratio);
     case 1:
         return Color::blend(Color(ORANGE), Color(YELLOW), ratio);
