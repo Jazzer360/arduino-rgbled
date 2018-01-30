@@ -18,9 +18,10 @@ void Joystick::update()
         mState.pressed = (buttonState == LOW);
         if (mOnClick && mState.pressed) mOnClick(mState);
     }
+    if (mOnUpdate) mOnUpdate(mState);
 }
 
-const Joystick::State& Joystick::getState()
+const Joystick::State& Joystick::getState() const
 {
     return mState;
 }
@@ -30,9 +31,19 @@ void Joystick::setOnClick(void(*function)(const State &))
     mOnClick = function;
 }
 
+void Joystick::setOnUpdate(void(*function)(const State &))
+{
+    mOnUpdate = function;
+}
+
 void Joystick::removeOnClick()
 {
     mOnClick = nullptr;
+}
+
+void Joystick::removeOnUpdate()
+{
+    mOnUpdate = nullptr;
 }
 
 void Joystick::init() const

@@ -9,7 +9,7 @@ public:
 	RGBLED(byte rPin, byte gPin, byte bPin)
         : mRPin{ rPin }, mGPin{ gPin }, mBPin{ bPin }
 	{ init(); }
-	void setColor(const Color &color, double brightness=1.0);
+	void setColor(const Color &color, double brightness=1.0) const;
 private:
 	const byte mRPin;
 	const byte mGPin;

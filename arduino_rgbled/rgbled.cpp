@@ -1,6 +1,6 @@
 #include "rgbled.h"
 
-void RGBLED::setColor(const Color &color, double brightness)
+void RGBLED::setColor(const Color &color, double brightness) const
 {
     analogWrite(mRPin, color.red * brightness);
     analogWrite(mGPin, color.green * brightness);

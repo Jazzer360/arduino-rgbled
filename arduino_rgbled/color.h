@@ -19,6 +19,7 @@ public:
     Color(long c) : Color(c >> 16, c >> 8, c) {}
     Color(byte r, byte g, byte b) : red{ r }, green{ g }, blue{ b } {}
     static Color blend(const Color &c1, const Color &c2, double ratio);
+    static Color fromAngle(double angle);
 };
 
 #endif

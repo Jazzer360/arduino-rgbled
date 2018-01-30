@@ -7,12 +7,11 @@ const byte pinY{ A1 };
 const byte pinJoybtn{ 3 };
 const double deadzone{ 0.05 };
 
-Joystick joystick{ pinX, pinY, pinJoybtn, deadzone };
-
 const byte pinR{ 9 };
 const byte pinG{ 10 };
 const byte pinB{ 11 };
 
+Joystick joystick{ pinX, pinY, pinJoybtn, deadzone };
 RGBLED led{ pinR, pinG, pinB };
 
 volatile bool paused{ false };
@@ -22,40 +21,22 @@ void onClick(const Joystick::State &state)
     paused = !paused;
 }
 
-Color angleToColor(double angle) {
-    const byte segment = angle / (PI / 3);
-    const double ratio = fmod(angle, (PI / 3)) / (PI / 3);
-    switch (segment)
+void onUpdate(const Joystick::State &state)
+{
+    if (!paused)
     {
-    case 0:
-        return Color::blend(Color(RED), Color(ORANGE), ratio);
-    case 1:
-        return Color::blend(Color(ORANGE), Color(YELLOW), ratio);
-    case 2:
-        return Color::blend(Color(YELLOW), Color(GREEN), ratio);
-    case 3:
-        return Color::blend(Color(GREEN), Color(BLUE), ratio);
-    case 4:
-        return Color::blend(Color(BLUE), Color(PURPLE), ratio);
-    case 5:
-        return Color::blend(Color(PURPLE), Color(RED), ratio);
-    default:
-        return Color(OFF);
+        Color color = Color::fromAngle(state.angle);
+        led.setColor(color, state.magnitude);
     }
 }
 
 void setup()
 {
     joystick.setOnClick(onClick);
+    joystick.setOnUpdate(onUpdate);
 }
 
 void loop()
 {
     joystick.update();
-    if (!paused)
-    {
-        const Joystick::State &joy = joystick.getState();
-        Color color = angleToColor(joy.angle);
-        led.setColor(color, joy.magnitude);
-    }
 }
