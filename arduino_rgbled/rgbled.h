@@ -7,15 +7,13 @@
 class RGBLED {
 public:
 	RGBLED(byte rPin, byte gPin, byte bPin)
-		: mRPin{ rPin }, mGPin{ gPin }, mBPin{ bPin }
+        : mRPin{ rPin }, mGPin{ gPin }, mBPin{ bPin }
 	{ init(); }
-	void setColor(Color);
-	void setIntensity(double);
+	void setColor(const Color &color, double brightness=1.0);
 private:
 	const byte mRPin;
 	const byte mGPin;
 	const byte mBPin;
-	Color mColor;
 	void init() const;
 };
 
