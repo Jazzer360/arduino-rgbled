@@ -21,11 +21,6 @@ void Joystick::update()
     if (mOnUpdate) mOnUpdate(mState);
 }
 
-const Joystick::State& Joystick::getState() const
-{
-    return mState;
-}
-
 void Joystick::setOnClick(void(*function)(const State &))
 {
     mOnClick = function;

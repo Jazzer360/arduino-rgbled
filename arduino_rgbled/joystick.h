@@ -18,7 +18,6 @@ public:
         : mXPin{ xPin }, mYPin{ yPin }, mButtonPin{ buttonPin }, mDeadzone{ deadzone }
     { init(); }
     void update();
-    const State& getState() const;
     void setOnClick(void(*function)(const State &));
     void setOnUpdate(void(*function)(const State &));
     void removeOnClick();
