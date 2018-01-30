@@ -29,7 +29,7 @@ void onClick()
 
 Color angleToColor(double angle) {
     const byte segment = angle / (PI / 3);
-    const double ratio = (angle - segment * (PI / 3)) / (PI / 3);
+    const double ratio = fmod(angle, (PI / 3)) / (PI / 3);
     switch (segment)
     {
     case 0:
