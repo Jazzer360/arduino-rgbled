@@ -7,7 +7,7 @@ const Joystick::State& Joystick::getState()
     mState.angle = atan2(y, x) + PI;
     mState.magnitude = sqrt(static_cast<long>(x) * x + static_cast<long>(y) * y);
     mState.magnitude = min(mState.magnitude, 512.0) / 512.0;
-    mState.pressed = digitalRead(mButtonPin) == HIGH;
+    mState.pressed = digitalRead(mButtonPin) == LOW;
     if (mState.magnitude < mDeadzone)
     {
         mState.magnitude = 0.0;
@@ -30,7 +30,7 @@ void Joystick::removeOnClick()
 
 void Joystick::init() const
 {   
-    pinMode(mXPin, INPUT_PULLUP);
-    pinMode(mYPin, INPUT_PULLUP);
+    pinMode(mXPin, INPUT);
+    pinMode(mYPin, INPUT);
     pinMode(mButtonPin, INPUT_PULLUP);
 }
